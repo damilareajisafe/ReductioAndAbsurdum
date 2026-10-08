@@ -83,6 +83,10 @@ Your Choice: ");
         ViewParticularCategory();
         //Console.WriteLine("What Category of Products Do You Want To Look At?")
     }
+    else if (choice == "3")
+    {
+        AddNewProduct();
+    }
 }
 
 void ViewAllProducts()
@@ -151,5 +155,47 @@ void ViewParticularCategory()
         Days In Stock: {selectedCategory[i].DaysOnShelf}
         Sold: {(selectedCategory[i].IsAvailable ? "No" : "Yes")}
          ");
+    }
+}
+
+void AddNewProduct()
+{
+    Console.WriteLine("What is the name of the new product? ");
+    string productName = Console.ReadLine().Trim();
+    decimal productPrice = 0.0M;
+    int productId = 0;
+    if (!products.Any(p => p.Name.ToLower() == productName.ToLower()))
+    {
+        try
+        {
+            Console.WriteLine("How much does the item cost: ");
+            productPrice = decimal.Parse(Console.ReadLine().Trim());
+            Console.WriteLine("Choose the category of product the item falls under: ");
+
+            foreach (ProductType productCategory in productCategories)
+            {
+                Console.WriteLine($"{productCategory.Id}. {productCategory.Name}");
+            }
+            productId = int.Parse(Console.ReadLine().Trim());
+
+            products.Add(new Product()
+            {
+                ProductTypeId = productId,
+                Name = productName,
+                Price = productPrice,
+                IsAvailable = true,
+                StockDate = DateTime.Now
+            }
+            );
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Console.WriteLine("Do better!");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Product already exists!");
     }
 }
