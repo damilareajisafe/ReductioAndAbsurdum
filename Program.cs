@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Transactions;
 
 List<ProductType> productCategories = new()
 {
@@ -86,6 +87,10 @@ Your Choice: ");
     else if (choice == "3")
     {
         AddNewProduct();
+    }
+    else if (choice == "4")
+    {
+        DeleteProduct();
     }
 }
 
@@ -197,5 +202,61 @@ void AddNewProduct()
     else
     {
         Console.WriteLine("Product already exists!");
+    }
+}
+
+void DeleteProduct()
+{
+    // Method 1 - Entering the name of the item
+    //ViewAllProducts();
+    //Console.WriteLine("Delete an item: ");
+
+    //string productName = Console.ReadLine().Trim();
+    //Product result = null;
+    //try
+    //{
+    //    result = products.First(p => p.Name.ToLower() == productName.ToLower());
+    //    products.Remove(result);
+    //}
+    //catch (Exception ex)
+    //{
+    //    Console.WriteLine(ex);
+    //    Console.WriteLine("Do better!");
+    //}
+
+    //if (result == null)
+    //{
+    //    Console.WriteLine("Product doesn't exists!");
+    //}
+
+    // Method 2 - Entering the s/n of the item
+    ViewAllProducts();
+    string choice = null;
+    string item = null;
+    Product chosenProduct = null;
+    while (choice == null)
+    {
+        try
+        {
+            Console.WriteLine("Item to delete? ");
+            choice = Console.ReadLine().Trim();
+            int index = int.Parse(choice);
+            if (index < 0 || index > products.Count)
+            {
+                Console.WriteLine("Enter a valid option!");
+            }
+            else
+            {
+                chosenProduct = products[int.Parse(choice) - 1];
+                item = chosenProduct.Name;
+                products.Remove(chosenProduct);
+                Console.WriteLine($"{item} has been deleted!");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            
+        }
     }
 }
