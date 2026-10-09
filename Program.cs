@@ -92,6 +92,10 @@ Your Choice: ");
     {
         DeleteProduct();
     }
+    else if (choice == "5")
+    {
+        UpdateProduct();
+    }
 }
 
 void ViewAllProducts()
@@ -257,6 +261,90 @@ void DeleteProduct()
         {
             Console.WriteLine(ex);
             
+        }
+    }
+}
+
+void UpdateProduct()
+{
+    ViewAllProducts();
+    string choice = null;
+    string item = null;
+    string name = null;
+    decimal price = 0.0M;
+    bool available = true;
+    int id = 0;
+    string option = null;
+    Product chosenProduct = null;
+    Console.WriteLine("Pick an item to update ");
+    while (choice == null)
+    {
+        try
+        {
+            choice = Console.ReadLine().Trim();
+            while (option != "0")
+            {
+                int index = int.Parse(choice);
+                if (index < 0 || index > products.Count)
+                {
+                    Console.WriteLine("Enter a valid option!");
+                }
+                else
+                {
+                    chosenProduct = products[int.Parse(choice) - 1];
+                    item = chosenProduct.Name;
+                    Console.WriteLine(@"What detail do you want to update?
+                    0. Back to Main Menu
+                    1. Name
+                    2. Price
+                    3. Avaiability
+                    4. Product Category
+                    Your Choice: ");
+                    option = Console.ReadLine().Trim();
+                    if (option == "1")
+                    {
+                        Console.WriteLine("Update name: ");
+                        name = Console.ReadLine().Trim();
+                        chosenProduct.Name = name;
+                    }
+                    else if (option == "2")
+                    {
+                        Console.WriteLine("Update price: ");
+                        price = decimal.Parse(Console.ReadLine().Trim());
+                        chosenProduct.Price = price;
+                    }
+                    else if (option == "3")
+                    {
+                        Console.WriteLine("Is item available?: y/n ");
+                        string decision = Console.ReadLine().Trim().ToLower();
+                        while (!(decision == "y" || decision == "n"))
+                        {
+                            Console.WriteLine("Enter a valid option!");
+                            decision = Console.ReadLine().Trim().ToLower();
+                        }
+                        chosenProduct.IsAvailable = (decision == "y") ? true : false;
+
+                    }
+                    else if (option == "4")
+                    {
+                        Console.WriteLine("Update category: ");
+                        Console.WriteLine("Choose the category of product the item falls under: ");
+
+                        foreach (ProductType productCategory in productCategories)
+                        {
+                            Console.WriteLine($"{productCategory.Id}. {productCategory.Name}");
+                        }
+                        int productId = int.Parse(Console.ReadLine().Trim());
+
+                        chosenProduct.ProductTypeId = productId;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+
         }
     }
 }
