@@ -174,39 +174,38 @@ void ViewParticularCategory()
         Console.WriteLine($"{productCategory.Id}. {productCategory.Name}");
     }
 
-    string categoryChoice = null;
-    List<Product> selectedCategory = null;
-    while (categoryChoice == null)
-    {
-        try
-        {
-            categoryChoice = Console.ReadLine().Trim();
-            int result = int.Parse(categoryChoice);
-            selectedCategory = products.Where(p => p.ProductTypeId == result).ToList();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            Console.WriteLine("Enter a valid option!");
-        }
-    }
 
-    if (selectedCategory.Count == 0)
+    bool valid = false;
+    while (!valid)
     {
-        Console.WriteLine("There are no products of this category in the inventory.");
-    }
-    else
-    {
-        for (int i = 0; i < selectedCategory.Count; i++)
+        Console.WriteLine("Your Option: ");
+        string input = Console.ReadLine().Trim();
+        if (int.TryParse(input, out int number) && number >= 1 && number <= productCategories.Count)
         {
-            Console.WriteLine(@$"{i + 1}. {selectedCategory[i].Name}
+            List<Product> selectedCategory = products.Where(p => p.ProductTypeId == number).ToList();
+            valid = true;
+
+            if (selectedCategory.Count == 0)
+            {
+                Console.WriteLine("There are no products of this category in the inventory.");
+            }
+            else
+            {
+                for (int i = 0; i < selectedCategory.Count; i++)
+                {
+                    Console.WriteLine(@$"{i + 1}. {selectedCategory[i].Name}
         Price: ${selectedCategory[i].Price}
         Days In Stock: {selectedCategory[i].DaysOnShelf}
-        Sold: {(selectedCategory[i].IsAvailable ? "No" : "Yes")}
+        Available: {(selectedCategory[i].IsAvailable ? "No" : "Yes")}
          ");
+                }
+            }
         }
-    }
-    
+        else
+        {
+            Console.WriteLine("Enter a valid option!");
+        }
+    }   
 }
 
 void AddNewProduct()
