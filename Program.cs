@@ -76,7 +76,7 @@ Your Choice: ");
     }
     else if (choice == "1")
     {
-        Console.WriteLine("Our Products: ");
+        
         ViewProductDetails();
     }
     else if (choice == "2")
@@ -96,6 +96,10 @@ Your Choice: ");
     {
         UpdateProduct();
     }
+    else
+    {
+        Console.WriteLine("Enter a valid option!");
+    }
 }
 
 void ViewAllProducts()
@@ -108,28 +112,58 @@ void ViewAllProducts()
 
 void ViewProductDetails()
 {
-    ViewAllProducts();
-    string choice = null;
-    Product chosenProduct = null;
-    while (choice == null)
+    //ViewAllProducts();
+    //bool valid = false;
+    //string input = null;
+    //Product chosenProduct = null;
+    //while (!valid)
+    //{
+    //    //try
+    //    //{
+    //    //    Console.WriteLine("Your Choice: ");
+    //    //    choice = Console.ReadLine().Trim();
+    //    //    chosenProduct = products[int.Parse(choice) - 1];
+    //    //}
+    //    //catch (Exception ex)
+    //    //{
+    //    //    Console.WriteLine(ex);
+    //    //    Console.WriteLine("Enter a valid option!");
+    //    //}
+    //    Console.WriteLine("Your Choice: ");
+    //    input = Console.ReadLine().Trim();
+    //    if (int.TryParse(input, out int number) &&  number >= 1 && number <= products.Count)
+    //    {
+    //        chosenProduct = products[int.Parse(input) - 1];
+    //        valid = true;
+    //    }
+    //    else
+    //    {
+    //        Console.WriteLine("Enter a valid option!");
+    //    }
+    //}
+    if (products.Count != 0)
     {
-        try
+        for (int i = 0; i < products.Count; i++)
         {
-            Console.WriteLine("Your Choice: ");
-            choice = Console.ReadLine().Trim();
-            chosenProduct = products[int.Parse(choice) - 1];
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            Console.WriteLine("Enter a valid option!");
+            Console.WriteLine("Our Products: \n");
+            Product chosenProduct = products[i];
+            Console.WriteLine($"{i + 1}. {chosenProduct.Name}");
+            Console.WriteLine(@$"The product {chosenProduct.Name} costs ${chosenProduct.Price}.
+It is{(chosenProduct.IsAvailable ? "" : " not")} available.
+It {(chosenProduct.IsAvailable ? "has been" : "was")} in stock for {chosenProduct.DaysOnShelf} days.
+");
         }
     }
-
-    Console.WriteLine(@$"The product {chosenProduct.Name} costs ${chosenProduct.Price}.
-It is{(chosenProduct.IsAvailable ? "" : " not")} available.
-It {(chosenProduct.IsAvailable ? "has been" : "was")} in stock for {chosenProduct.DaysOnShelf} days.");
+    else
+    {
+        Console.WriteLine("There are no products in the inventory.");
+    }   
 }
+
+//    Console.WriteLine(@$"The product {chosenProduct.Name} costs ${chosenProduct.Price}.
+//It is{(chosenProduct.IsAvailable ? "" : " not")} available.
+//It {(chosenProduct.IsAvailable ? "has been" : "was")} in stock for {chosenProduct.DaysOnShelf} days.");
+//}
 
 void ViewParticularCategory()
 {
@@ -157,14 +191,22 @@ void ViewParticularCategory()
         }
     }
 
-    for (int i = 0; i < selectedCategory.Count; i++)
+    if (selectedCategory.Count == 0)
     {
-        Console.WriteLine(@$"{i + 1}. {selectedCategory[i].Name}
+        Console.WriteLine("There are no products of this category in the inventory.");
+    }
+    else
+    {
+        for (int i = 0; i < selectedCategory.Count; i++)
+        {
+            Console.WriteLine(@$"{i + 1}. {selectedCategory[i].Name}
         Price: ${selectedCategory[i].Price}
         Days In Stock: {selectedCategory[i].DaysOnShelf}
         Sold: {(selectedCategory[i].IsAvailable ? "No" : "Yes")}
          ");
+        }
     }
+    
 }
 
 void AddNewProduct()
