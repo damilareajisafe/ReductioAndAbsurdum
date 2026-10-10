@@ -191,22 +191,14 @@ void ViewParticularCategory()
         }
     }
 
-    if (selectedCategory.Count == 0)
+    for (int i = 0; i < selectedCategory.Count; i++)
     {
-        Console.WriteLine("There are no products of this category in the inventory.");
-    }
-    else
-    {
-        for (int i = 0; i < selectedCategory.Count; i++)
-        {
-            Console.WriteLine(@$"{i + 1}. {selectedCategory[i].Name}
+        Console.WriteLine(@$"{i + 1}. {selectedCategory[i].Name}
         Price: ${selectedCategory[i].Price}
         Days In Stock: {selectedCategory[i].DaysOnShelf}
         Sold: {(selectedCategory[i].IsAvailable ? "No" : "Yes")}
          ");
-        }
     }
-    
 }
 
 void AddNewProduct()
